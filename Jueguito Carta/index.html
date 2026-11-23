@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Fuego & Piel - Juego de Cartas Íntimo para Parejas</title>
+  <meta name="description"
+    content="Juego de cartas picante y sensual para parejas con retos aleatorios, niveles progresivos y temporizador interactivo.">
+  <meta name="theme-color" content="#0b0914">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Encabezado -->
+  <header>
+    <div class="logo-area">
+      <span class="logo-icon">🔥</span>
+      <div>
+        <h1>FUEGO & PIEL</h1>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="soundToggleBtn" class="icon-btn" title="Activar/Silenciar Sonido">🔊</button>
+      <button id="fullscreenBtn" class="icon-btn" title="Pantalla Completa">⛶</button>
+      <button id="rulesBtn" class="icon-btn" title="Cómo jugar">ℹ️</button>
+    </div>
+  </header>
+
+  <!-- Barra de Configuración de Modo y Filtros -->
+  <section class="controls-bar">
+    <div class="mode-selector">
+      <button id="modeRandomBtn" class="mode-btn active" title="Baraja todas las cartas al 100% al azar">
+        🎲 Modo 100% Aleatorio
+      </button>
+      <button id="modeProgressiveBtn" class="mode-btn"
+        title="Sube de intensidad: Suave -> Pasión -> Oral -> Penetración">
+        📈 Modo Gradual
+      </button>
+    </div>
+    <div class="level-filters" id="levelFilters">
+      <button class="filter-pill active" data-level="all">Todas (<span id="totalCardsCount">52</span>)</button>
+      <button class="filter-pill" data-level="1">Nivel 1: Suave</button>
+      <button class="filter-pill" data-level="2">Nivel 2: Pasión</button>
+      <button class="filter-pill" data-level="3">Nivel 3: Oral</button>
+      <button class="filter-pill" data-level="4">Nivel 4: Fuego</button>
+    </div>
+  </section>
+
+  <!-- Escenario de Juego / Carta con efecto 3D Flip -->
+  <main class="game-arena">
+    <div class="card-stage" id="cardStage">
+      <div class="card-inner" id="cardInner">
+
+        <!-- Reverso de la Carta (Cubierta inicial) -->
+        <div class="card-face card-back" id="cardBack">
+          <div class="deck-pattern"></div>
+          <div class="card-back-icon">💋</div>
+          <h2 class="card-back-title">FUEGO & PIEL</h2>
+          <p class="card-back-subtitle">Toca la carta o presiona "Sacar Carta" para encender la pasión con tu pareja.
+          </p>
+          <div class="tap-indicator">✨ Toca para revelar ✨</div>
+        </div>
+
+        <!-- Anverso de la Carta (Contenido del reto erótico) -->
+        <div class="card-face card-front level-1" id="cardFront">
+          <div class="card-top-bar">
+            <span class="level-badge" id="cardLevelBadge">🔥 Nivel 1: Calentamiento</span>
+            <span class="card-id-badge" id="cardIdBadge">#1 / 52</span>
+          </div>
+
+          <div class="card-center-content">
+            <h3 class="card-title" id="cardTitle">Caminito en el Cuello</h3>
+            <div>
+              <span class="card-role" id="cardRole">Quien saca la carta realiza la acción</span>
+            </div>
+            <p class="card-action-text" id="cardAction">
+              Besa y mordisquea suavemente el cuello de tu pareja, desde detrás de su oreja hasta la clavícula, sin usar
+              tus manos.
+            </p>
+            <div class="card-tip" id="cardTip">
+              💡 Tip: Varía entre besos suaves, respiración tibia y pequeños roces de labios.
+            </div>
+          </div>
+
+          <!-- Temporizador integrado -->
+          <div class="card-timer-area">
+            <div class="timer-display-group">
+              <span id="timerIcon">⏱️</span>
+              <div class="timer-countdown" id="timerDisplay">00:45</div>
+            </div>
+            <div class="timer-progress-bar">
+              <div class="timer-progress-fill" id="timerProgressFill"></div>
+            </div>
+            <div class="timer-buttons">
+              <button class="timer-btn primary" id="timerToggleBtn">
+                <span id="timerPlayIcon">▶</span> <span id="timerStatusText">Iniciar</span>
+              </button>
+              <button class="timer-btn" id="timerAddBtn">+30s</button>
+              <button class="timer-btn" id="timerResetBtn">↺ Reiniciar</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Botones de Acción Inferiores -->
+  <footer class="action-controls">
+    <div class="main-buttons">
+      <button class="btn btn-secondary" id="turnBtn" title="Elegir quién hace la acción al azar">
+        🎲 ¿A quién le toca?
+      </button>
+      <button class="btn btn-primary" id="nextCardBtn">
+        Siguiente Carta 🔥
+      </button>
+    </div>
+
+    <div class="sub-actions">
+      <button class="text-btn" id="penaltyBtn">😈 ¿No te atreves? Penitencia</button>
+      <button class="text-btn" id="addCustomCardBtn">✍️ Crear Carta</button>
+      <span class="deck-stats" id="deckStats">Restantes: 52 / 52</span>
+    </div>
+  </footer>
+
+  <!-- Modal de Penitencia -->
+  <div class="modal-overlay" id="penaltyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">😈 Penitencia Picante</h3>
+        <button class="modal-close" id="closePenaltyModal">&times;</button>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">
+        Si alguno de los dos decide pasar este reto o no se atreve, debe cumplir este castigo de inmediato:
+      </p>
+      <div class="penalty-card" id="penaltyText">
+        Cargando penitencia...
+      </div>
+      <button class="btn btn-primary" id="anotherPenaltyBtn" style="width: 100%;">
+        🔄 Otra Penitencia
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de ¿A quién le toca? -->
+  <div class="modal-overlay" id="turnModal">
+    <div class="modal-content" style="text-align: center;">
+      <div class="modal-header">
+        <h3 class="modal-title">🎲 El Destino Decide</h3>
+        <button class="modal-close" id="closeTurnModal">&times;</button>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
+        ¿Dudas sobre a quién le toca entregarse en esta carta?
+      </p>
+      <div class="penalty-card" id="turnResultText"
+        style="border-color: var(--accent-gold); background: rgba(255, 190, 11, 0.1);">
+        Girando la ruleta...
+      </div>
+      <button class="btn btn-primary" id="spinTurnAgainBtn" style="width: 100%;">
+        🎲 Girar de Nuevo
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de Crear Carta Personalizada -->
+  <div class="modal-overlay" id="customCardModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">✍️ Añade tu Carta Secreta</h3>
+        <button class="modal-close" id="closeCustomModal">&times;</button>
+      </div>
+      <form id="customCardForm">
+        <div class="form-group">
+          <label>Título del Reto o Fantasía:</label>
+          <input type="text" id="customTitle" class="form-control" placeholder="Ej: Mordisco con susurro..." required>
+        </div>
+        <div class="form-group">
+          <label>Nivel de Intensidad:</label>
+          <select id="customLevel" class="form-control">
+            <option value="1">Nivel 1: Calentamiento & Sensual</option>
+            <option value="2">Nivel 2: Pasión & Ropa Fuera</option>
+            <option value="3">Nivel 3: Placer Oral & Toque Íntimo</option>
+            <option value="4">Nivel 4: Penetración & Posición Salvaje</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>¿A quién le toca?:</label>
+          <input type="text" id="customRole" class="form-control"
+            placeholder="Ej: Quien saca la carta, Acción mutua, etc." value="Quien saca la carta realiza la acción">
+        </div>
+        <div class="form-group">
+          <label>Acción o Reto detallado:</label>
+          <textarea id="customAction" class="form-control" rows="3" placeholder="Describe exactamente qué debe hacer..."
+            required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Tiempo recomendado (segundos):</label>
+          <input type="number" id="customTime" class="form-control" min="15" max="600" step="15" value="60">
+        </div>
+        <div class="form-group">
+          <label>Consejo o Tip pícaro (opcional):</label>
+          <input type="text" id="customTip" class="form-control" placeholder="Ej: Mantén el contacto visual...">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+          💾 Guardar Carta en la Baraja
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de Reglas / Cómo jugar -->
+  <div class="modal-overlay" id="rulesModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">📖 Reglas del Juego</h3>
+        <button class="modal-close" id="closeRulesModal">&times;</button>
+      </div>
+      <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted);">
+        <p><strong style="color: #fff;">1. Preparar el ambiente:</strong> Apaguen luces fuertes, pongan música
+          sugerente, tengan a mano una bebida y lubricante si lo desean.</p>
+        <br>
+        <p><strong style="color: #fff;">2. Modos de Juego:</strong></p>
+        <ul style="margin-left: 20px; margin-top: 4px;">
+          <li><strong>Modo 100% Aleatorio:</strong> Cada carta que saques será totalmente al azar. Puede tocar una
+            caricia suave o una posición intensa en cualquier turno.</li>
+          <li><strong>Modo Gradual:</strong> El juego comenzará con caricias suaves (Nivel 1) e irá subiendo poco a poco
+            de temperatura hasta el clímax (Nivel 4).</li>
+        </ul>
+        <br>
+        <p><strong style="color: #fff;">3. El Temporizador:</strong> Cada reto tiene un tiempo adaptado a la intensidad.
+          Pulsa "Iniciar" y disfruten sin mirar el reloj hasta que suene la alarma.</p>
+        <br>
+        <p><strong style="color: #fff;">4. Penitencias:</strong> Si alguien no desea cumplir una carta por pudor o
+          cansancio, puede pulsar <em>"¿No te atreves?"</em> para pagar una penitencia picante.</p>
+        <br>
+        <p><strong style="color: #fff;">5. Consentimiento y placer:</strong> La regla de oro es pasarla increíble
+          juntos, explorar nuevas sensaciones y reírse en complicidad.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notificación Toast -->
+  <div class="toast" id="toast">Notificación</div>
+
+  <!-- Scripts -->
+  <script src="cards.js"></script>
+  <script src="game.js"></script>
+</body>
+
+</html>
